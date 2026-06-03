@@ -209,3 +209,22 @@ $string['designerstructurevalidate_module_instructions_required'] = 'Les consign
 $string['designerstructurevalidate_module_instructions_too_long'] = 'Les consignes sont trop longues (maximum {$a->max} caractères).';
 $string['designerstructurevalidate_instructions_api_min'] = 'Les consignes doivent comporter au moins {$a->min} caractères.';
 $string['designerstructurevalidate_fill_instructions_too_long'] = 'Les consignes envoyées à l\'IA sont trop longues (maximum {$a->max} caractères).';
+
+// Practice quiz.
+$string['practice_quiz_default_title'] = 'Quiz d\'entraînement';
+$string['practice_quiz_difficulty_easy'] = 'facile (rappel de base, concepts simples, adapté aux débutants)';
+$string['practice_quiz_difficulty_medium'] = 'moyen (profondeur modérée nécessitant une compréhension au-delà du simple rappel)';
+$string['practice_quiz_difficulty_hard'] = 'difficile (application exigeante, analyse ou synthèse de concepts avancés)';
+$string['practice_quiz_instructions'] = 'Générez un quiz d\'entraînement sur le thème : {$a->topic}.
+
+EXIGENCES OBLIGATOIRES — vous DEVEZ les respecter exactement :
+1. NOMBRE DE QUESTIONS : Le tableau « questions » DOIT contenir exactement {$a->count} questions. Ne produisez pas {$a->count} moins un, {$a->count} plus un, ni aucun autre nombre — exactement {$a->count}.
+2. NIVEAU DE DIFFICULTÉ : Chaque question DOIT être de difficulté {$a->difficultylabel}.
+3. FORMAT : Chaque question DOIT être à choix multiples avec 3 ou 4 options de réponse et exactement une bonne réponse.
+
+Avant de terminer, vérifiez que la longueur du tableau questions est égale à {$a->count} et que toutes les questions correspondent au niveau de difficulté {$a->difficulty}.
+Concentrez-vous sur le contexte de cours fourni. Il s\'agit d\'un quiz d\'entraînement éphémère du tuteur — ne mentionnez pas les activités Moodle par leur nom.';
+$string['practice_quiz_error_job_not_completed'] = 'Le travail n\'est pas terminé. Statut : {$a->status}';
+$string['practice_quiz_error_invalid_result'] = 'Résultat du travail non valide.';
+$string['practice_quiz_error_wrong_module_type'] = 'Le travail n\'est pas une génération simplequiz2.';
+$string['practice_quiz_error_no_questions'] = 'Aucune question dans le résultat du travail.';
