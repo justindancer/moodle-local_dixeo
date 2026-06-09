@@ -36,7 +36,10 @@ defined('MOODLE_INTERNAL') || die();
  *   "fields": {
  *     "questiontext": {"source": "$.text"},
  *     "options": {"source": "$.options"},
- *     "correct_answer": {"source": "$.answer"}
+ *     "correct_answer": {"source": "$.answer"},
+ *     "correctfeedback": {"source": "$.correctfeedback"},
+ *     "partiallycorrectfeedback": {"source": "$.partiallycorrectfeedback"},
+ *     "incorrectfeedback": {"source": "$.incorrectfeedback"}
  *   }
  * }
  *
@@ -44,12 +47,18 @@ defined('MOODLE_INTERNAL') || die();
  * {
  *   "text": "What is a cell?",
  *   "options": ["Basic unit of life", "An organism", "A tissue"],
- *   "answer": 0
+ *   "answer": 0,
+ *   "correctfeedback": "Well done!",
+ *   "partiallycorrectfeedback": "Almost there.",
+ *   "incorrectfeedback": "Try again."
  * }
  *
  * SimpleQuiz format (output):
  * {
  *   "text": "What is a cell?",
+ *   "correctfeedback": "Well done!",
+ *   "partiallycorrectfeedback": "Almost there.",
+ *   "incorrectfeedback": "Try again.",
  *   "answers": [
  *     {"text": "Basic unit of life", "iscorrect": 1},
  *     {"text": "An organism", "iscorrect": 0},
