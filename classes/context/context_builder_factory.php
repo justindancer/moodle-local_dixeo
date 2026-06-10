@@ -70,13 +70,15 @@ class context_builder_factory {
      * Create a module generation context builder.
      *
      * @param int $cmid The course module ID.
+     * @param bool $includeadjacent Include prev/next modules in section (default true).
      * @return module_generation_context_builder The configured builder.
      */
-    public static function moduleGeneration(int $cmid): module_generation_context_builder {
+    public static function moduleGeneration(int $cmid, bool $includeadjacent = true): module_generation_context_builder {
         return new module_generation_context_builder(
             $cmid,
             self::getHtmlHelper(),
-            self::getContentExtractor()
+            self::getContentExtractor(),
+            $includeadjacent
         );
     }
 
@@ -136,6 +138,36 @@ class context_builder_factory {
      */
     public static function buildSectionContext(int $sectionId): string {
         return self::section($sectionId)->build();
+    }
+
+    /**
+     * Build section context by course ID and section number.
+     *
+     * @param int $courseId The course ID.
+     * @param int $sectionNum The section number (course_sections.section).
+     * @return string The built markdown context.
+     */
+    public static function buildSectionContextForNumber(int $courseId, int $sectionNum): string {
+        global $DB;
+
+        $section = $DB->get_record(
+            'course_sections',
+            ['course' => $courseId, 'section' => $sectionNum],
+            'id',
+            MUST_EXIST
+        );
+
+        return self::buildSectionContext((int) $section->id);
+    }
+
+    /**
+     * Build focused module context for practice quiz activity scope.
+     *
+     * @param int $cmid The course module ID.
+     * @return string The built markdown context.
+     */
+    public static function buildModulePracticeContext(int $cmid): string {
+        return self::moduleGeneration($cmid, false)->build();
     }
 
     /**

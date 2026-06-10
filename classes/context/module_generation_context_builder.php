@@ -29,20 +29,29 @@ use local_dixeo\service\module_content_extractor;
 class module_generation_context_builder extends abstract_context_builder {
     use module_data_loader;
 
+    /** @var int The course module ID. */
+    private int $cmid;
+
+    /** @var bool Whether to include adjacent modules in section. */
+    private bool $includeadjacent;
+
     /**
      * Constructor.
      *
      * @param int $cmid The course module ID.
      * @param html_helper|null $htmlHelper Optional HTML helper.
      * @param module_content_extractor|null $contentExtractor Optional content extractor.
+     * @param bool $includeadjacent Include prev/next modules in section (default true).
      */
     public function __construct(
         int $cmid,
         ?html_helper $htmlHelper = null,
-        ?module_content_extractor $contentExtractor = null
+        ?module_content_extractor $contentExtractor = null,
+        bool $includeadjacent = true
     ) {
         parent::__construct($htmlHelper, $contentExtractor);
         $this->cmid = $cmid;
+        $this->includeadjacent = $includeadjacent;
     }
 
     /**
@@ -68,7 +77,8 @@ class module_generation_context_builder extends abstract_context_builder {
             $lines[] = '';
         }
 
-        $lines[] = "## Module: {$this->cminfo->name}";
+        $fileannotation = $this->get_file_annotation($this->cminfo);
+        $lines[] = "## Module: {$this->cminfo->name}{$fileannotation}";
         $lines[] = "Type: {$this->cminfo->modname}";
         $lines[] = '';
 
@@ -80,9 +90,11 @@ class module_generation_context_builder extends abstract_context_builder {
             $lines[] = '';
         }
 
-        $lines[] = '### Adjacent Modules in Section';
-        $lines[] = '';
-        $lines = array_merge($lines, $this->buildAdjacentModulesSimple());
+        if ($this->includeadjacent) {
+            $lines[] = '### Adjacent Modules in Section';
+            $lines[] = '';
+            $lines = array_merge($lines, $this->buildAdjacentModulesSimple());
+        }
 
         return $this->finalize_context($lines);
     }

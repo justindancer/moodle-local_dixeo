@@ -10,12 +10,16 @@
 
 namespace local_dixeo;
 
+use local_dixeo\context\context_builder_factory;
 use local_dixeo\dto\job_status;
 use local_dixeo\external\service_factory;
 use local_dixeo\service\job_service;
 use local_dixeo\service\practice_quiz_service;
 
 defined('MOODLE_INTERNAL') || die();
+
+global $CFG;
+require_once($CFG->dirroot . '/course/lib.php');
 
 /**
  * @covers \local_dixeo\service\practice_quiz_service
@@ -138,5 +142,131 @@ final class practice_quiz_service_test extends \advanced_testcase {
         $this->assertEquals('What is a cell?', $questions[0]['text']);
 
         service_factory::reset();
+    }
+
+    /**
+     * Activity scope context includes file annotation and omits adjacent modules.
+     */
+    public function test_build_context_activity_includes_files_and_omits_adjacent(): void {
+        $this->resetAfterTest(true);
+        $fixtures = $this->create_practice_quiz_fixtures();
+        $service = new practice_quiz_service();
+
+        $context = $service->build_context(
+            (int) $fixtures['course']->id,
+            practice_quiz_service::SCOPE_ACTIVITY,
+            null,
+            $fixtures['resourcecmid']
+        );
+
+        $this->assertStringContainsString('# Module Context', $context);
+        $this->assertStringContainsString('The Simpsons', $context);
+        $this->assertStringContainsString('(files:', $context);
+        $this->assertStringContainsString('simpsons-wiki.pdf', $context);
+        $this->assertStringNotContainsString('Adjacent Modules', $context);
+    }
+
+    /**
+     * Section scope context uses section builder with full module content.
+     */
+    public function test_build_context_section_uses_full_section_content(): void {
+        $this->resetAfterTest(true);
+        $fixtures = $this->create_practice_quiz_fixtures();
+        $service = new practice_quiz_service();
+
+        $context = $service->build_context(
+            (int) $fixtures['course']->id,
+            practice_quiz_service::SCOPE_SECTION,
+            $fixtures['sectionnum'],
+            null
+        );
+
+        $this->assertStringContainsString('# Section Context', $context);
+        $this->assertStringContainsString('Section Page Activity', $context);
+        $this->assertStringContainsString($fixtures['longmarker'], $context);
+        $this->assertStringNotContainsString('# Course Context', $context);
+    }
+
+    /**
+     * Course scope context uses full course assessment context.
+     */
+    public function test_build_context_course_uses_full_course_context(): void {
+        $this->resetAfterTest(true);
+        $fixtures = $this->create_practice_quiz_fixtures();
+        $service = new practice_quiz_service();
+
+        $context = $service->build_context(
+            (int) $fixtures['course']->id,
+            practice_quiz_service::SCOPE_COURSE,
+            null,
+            null
+        );
+
+        $this->assertStringContainsString('# Course Context', $context);
+        $this->assertStringContainsString('## Course Structure', $context);
+        $this->assertStringContainsString('Section Page Activity', $context);
+        $this->assertStringContainsString($fixtures['longmarker'], $context);
+    }
+
+    /**
+     * buildSectionContextForNumber throws when section number does not exist.
+     */
+    public function test_build_section_context_for_number_invalid_section(): void {
+        $this->resetAfterTest(true);
+        $course = $this->getDataGenerator()->create_course();
+
+        $this->expectException(\dml_missing_record_exception::class);
+        context_builder_factory::buildSectionContextForNumber((int) $course->id, 99);
+    }
+
+    /**
+     * Create a course with a long page and a resource with an attached file.
+     *
+     * @return array{course: object, pagecmid: int, resourcecmid: int, sectionnum: int, longmarker: string}
+     */
+    private function create_practice_quiz_fixtures(): array {
+        $this->setAdminUser();
+        $gen = $this->getDataGenerator();
+        $course = $gen->create_course(['numsections' => 2]);
+        $longmarker = 'SectionPageContentMarker';
+        $longcontent = '<p>' . str_repeat($longmarker, 40) . '</p>';
+
+        $page = $gen->create_module('page', [
+            'course' => $course->id,
+            'section' => 1,
+            'name' => 'Section Page Activity',
+            'content' => $longcontent,
+            'contentformat' => FORMAT_HTML,
+        ]);
+
+        $resource = $gen->create_module('resource', [
+            'course' => $course->id,
+            'section' => 1,
+            'name' => 'The Simpsons',
+            'intro' => '<p>Simpsons resource intro</p>',
+            'introformat' => FORMAT_HTML,
+        ]);
+        $resourcecm = get_coursemodule_from_instance('resource', $resource->id, $course->id);
+
+        $fs = get_file_storage();
+        $context = \context_module::instance($resourcecm->id);
+        $fs->create_file_from_string([
+            'contextid' => $context->id,
+            'component' => 'mod_resource',
+            'filearea' => 'content',
+            'itemid' => 0,
+            'filepath' => '/',
+            'filename' => 'simpsons-wiki.pdf',
+        ], 'Fake PDF body');
+
+        rebuild_course_cache($course->id, true);
+
+        return [
+            'course' => $course,
+            'pagecmid' => (int) get_coursemodule_from_instance('page', $page->id, $course->id)->id,
+            'resourcecmid' => (int) $resourcecm->id,
+            'sectionnum' => 1,
+            'longmarker' => $longmarker,
+        ];
     }
 }
