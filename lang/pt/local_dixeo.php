@@ -215,7 +215,10 @@ $string['practice_quiz_default_title'] = 'Questionário de prática';
 $string['practice_quiz_difficulty_easy'] = 'fácil (recordação básica, conceitos simples, adequado para principiantes)';
 $string['practice_quiz_difficulty_medium'] = 'médio (profundidade moderada que exige compreensão para além da simples recordação)';
 $string['practice_quiz_difficulty_hard'] = 'difícil (aplicação exigente, análise ou síntese de conceitos avançados)';
-$string['practice_quiz_instructions'] = 'Gere um questionário de prática sobre o tema: {$a->topic}.
+$string['practice_quiz_scope_course_description'] = 'o curso completo «{$a->name}»';
+$string['practice_quiz_scope_section_description'] = 'a secção «{$a->name}»';
+$string['practice_quiz_scope_activity_description'] = 'a atividade «{$a->name}»';
+$string['practice_quiz_instructions'] = 'Gere um questionário de prática para {$a->scopedescription}.
 
 REQUISITOS OBRIGATÓRIOS — deve segui-los exatamente:
 1. NÚMERO DE PERGUNTAS: O array "questions" DEVE conter exatamente {$a->count} perguntas. Não produza {$a->count} menos um, {$a->count} mais um, nem qualquer outro número — exatamente {$a->count}.
@@ -223,7 +226,7 @@ REQUISITOS OBRIGATÓRIOS — deve segui-los exatamente:
 3. FORMATO: Cada pergunta DEVE ser de escolha múltipla com 3 ou 4 opções de resposta e exatamente uma resposta correta.
 
 Antes de terminar, verifique se o comprimento do array questions é {$a->count} e se todas as perguntas correspondem ao nível de dificuldade {$a->difficulty}.
-Concentre-se no contexto do curso fornecido. Este é um questionário de prática efémero do tutor — não mencione atividades Moodle pelo nome.';
+Concentre-se no contexto do curso fornecido.';
 $string['practice_quiz_error_job_not_completed'] = 'O trabalho não está concluído. Estado: {$a->status}';
 $string['practice_quiz_error_invalid_result'] = 'Resultado do trabalho inválido.';
 $string['practice_quiz_error_wrong_module_type'] = 'O trabalho não é uma geração simplequiz2.';

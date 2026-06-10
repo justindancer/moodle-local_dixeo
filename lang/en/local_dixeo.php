@@ -217,7 +217,10 @@ $string['practice_quiz_default_title'] = 'Practice quiz';
 $string['practice_quiz_difficulty_easy'] = 'easy (basic recall, straightforward concepts, suitable for beginners)';
 $string['practice_quiz_difficulty_medium'] = 'medium (moderate depth requiring understanding beyond simple recall)';
 $string['practice_quiz_difficulty_hard'] = 'hard (challenging application, analysis, or synthesis of advanced concepts)';
-$string['practice_quiz_instructions'] = 'Generate a practice quiz for the topic: {$a->topic}.
+$string['practice_quiz_scope_course_description'] = 'the entire course "{$a->name}"';
+$string['practice_quiz_scope_section_description'] = 'the section "{$a->name}"';
+$string['practice_quiz_scope_activity_description'] = 'the activity "{$a->name}"';
+$string['practice_quiz_instructions'] = 'Generate a practice quiz for {$a->scopedescription}.
 
 MANDATORY REQUIREMENTS — you MUST follow these exactly:
 1. QUESTION COUNT: The "questions" array MUST contain exactly {$a->count} questions. Do not output {$a->count} minus one, {$a->count} plus one, or any other number — exactly {$a->count}.
@@ -225,7 +228,7 @@ MANDATORY REQUIREMENTS — you MUST follow these exactly:
 3. FORMAT: Each question MUST be multiple-choice with 3 or 4 answer options and exactly one correct answer.
 
 Before finishing, verify the questions array length equals {$a->count} and that all questions match the {$a->difficulty} difficulty level.
-Focus on the provided course context. This is an ephemeral tutor practice quiz — do not reference Moodle activities by name.';
+Focus on the provided course context.';
 $string['practice_quiz_error_job_not_completed'] = 'Job is not completed. Status: {$a->status}';
 $string['practice_quiz_error_invalid_result'] = 'Invalid job result.';
 $string['practice_quiz_error_wrong_module_type'] = 'Job is not a simplequiz2 generation.';
