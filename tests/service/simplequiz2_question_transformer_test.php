@@ -55,18 +55,36 @@ final class simplequiz2_question_transformer_test extends \advanced_testcase {
     }
 
     /**
-     * Missing feedback defaults to empty strings.
+     * Missing feedback uses localized placeholders.
      */
-    public function test_transform_api_question_empty_feedback_defaults(): void {
+    public function test_transform_api_question_empty_feedback_placeholders(): void {
         $question = simplequiz2_question_transformer::transform_api_question([
             'text' => 'Q',
             'options' => ['A', 'B'],
             'answer' => 0,
         ]);
 
-        $this->assertSame('', $question->correctfeedback);
-        $this->assertSame('', $question->partiallycorrectfeedback);
-        $this->assertSame('', $question->incorrectfeedback);
+        $this->assertSame(get_string('feedback_correct', 'local_dixeo'), $question->correctfeedback);
+        $this->assertSame(get_string('feedback_partial', 'local_dixeo'), $question->partiallycorrectfeedback);
+        $this->assertSame(get_string('feedback_incorrect', 'local_dixeo'), $question->incorrectfeedback);
+    }
+
+    /**
+     * Whitespace-only feedback is treated as empty and replaced with placeholders.
+     */
+    public function test_transform_api_question_whitespace_feedback_placeholders(): void {
+        $question = simplequiz2_question_transformer::transform_api_question([
+            'text' => 'Q',
+            'options' => ['A', 'B'],
+            'answer' => 0,
+            'correctfeedback' => '   ',
+            'partiallycorrectfeedback' => "\n",
+            'incorrectfeedback' => '',
+        ]);
+
+        $this->assertSame(get_string('feedback_correct', 'local_dixeo'), $question->correctfeedback);
+        $this->assertSame(get_string('feedback_partial', 'local_dixeo'), $question->partiallycorrectfeedback);
+        $this->assertSame(get_string('feedback_incorrect', 'local_dixeo'), $question->incorrectfeedback);
     }
 
     /**

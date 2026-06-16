@@ -151,7 +151,9 @@ $string['privacy:metadata'] = 'Il plugin Dixeo invia il contenuto del corso all\
 $string['dsl_error'] = 'Creazione del modulo non riuscita: {$a}';
 
 // Quiz question feedback.
-$string['feedback_correct'] = 'Corretto!';
+$string['feedback_correct'] = 'Ottimo lavoro, hai scelto la risposta giusta. Continua così!';
+$string['feedback_partial'] = 'Sei sulla strada giusta. Ripassa il materiale e ce la farai.';
+$string['feedback_incorrect'] = 'Non proprio questa volta. Ripassare l\'argomento ti aiuterà a migliorare.';
 
 // Tasks.
 $string['task_cleanup_jobs'] = 'Pulire i vecchi record dei lavori';

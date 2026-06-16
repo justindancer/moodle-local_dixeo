@@ -42,9 +42,18 @@ class simplequiz2_question_transformer {
 
         $question = new \stdClass();
         $question->text = is_string($questiontext) ? $questiontext : (string) $questiontext;
-        $question->correctfeedback = (string) ($fields['correctfeedback'] ?? '');
-        $question->partiallycorrectfeedback = (string) ($fields['partiallycorrectfeedback'] ?? '');
-        $question->incorrectfeedback = (string) ($fields['incorrectfeedback'] ?? '');
+        $question->correctfeedback = self::feedback_or_default(
+            (string) ($fields['correctfeedback'] ?? ''),
+            'feedback_correct'
+        );
+        $question->partiallycorrectfeedback = self::feedback_or_default(
+            (string) ($fields['partiallycorrectfeedback'] ?? ''),
+            'feedback_partial'
+        );
+        $question->incorrectfeedback = self::feedback_or_default(
+            (string) ($fields['incorrectfeedback'] ?? ''),
+            'feedback_incorrect'
+        );
         $question->answers = [];
 
         foreach ($options as $index => $optiontext) {
@@ -78,5 +87,20 @@ class simplequiz2_question_transformer {
             $out[$index] = self::transform_api_question($itemdata);
         }
         return $out;
+    }
+
+    /**
+     * Use localized placeholder feedback when the API omits or sends empty content.
+     *
+     * @param string $value Raw feedback from the generation payload.
+     * @param string $stringkey local_dixeo lang string key.
+     * @return string
+     */
+    private static function feedback_or_default(string $value, string $stringkey): string {
+        if (trim($value) !== '') {
+            return $value;
+        }
+
+        return get_string($stringkey, 'local_dixeo');
     }
 }

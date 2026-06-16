@@ -151,7 +151,9 @@ $string['privacy:metadata'] = 'Das Dixeo-Plugin sendet Kursinhalte zur Verarbeit
 $string['dsl_error'] = 'Modulerstellung fehlgeschlagen: {$a}';
 
 // Quiz question feedback.
-$string['feedback_correct'] = 'Richtig!';
+$string['feedback_correct'] = 'Gut gemacht, diese Antwort war richtig. Weiter so!';
+$string['feedback_partial'] = 'Du bist auf dem richtigen Weg. Schau dir den Stoff an, dann klappt es.';
+$string['feedback_incorrect'] = 'Diesmal nicht ganz richtig. Den Stoff zu wiederholen wird dir helfen, dich zu verbessern.';
 
 // Tasks.
 $string['task_cleanup_jobs'] = 'Alte Auftragsdatensätze bereinigen';
