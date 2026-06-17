@@ -236,6 +236,8 @@ $string['practice_quiz_error_invalid_result'] = 'Invalid job result.';
 $string['practice_quiz_error_wrong_module_type'] = 'Job is not a simplequiz2 generation.';
 $string['practice_quiz_error_no_questions'] = 'No questions in job result.';
 
+$string['generation_output_language'] = 'LANGUAGE: Generate all learner-facing content (questions, answers, lesson text, and titles) in {$a->language}.';
+
 // Teach lesson.
 $string['teach_lesson_default_title'] = 'Custom lesson';
 $string['teach_lesson_instructions'] = 'Generate a custom Page module lesson for {$a->scopedescription}.

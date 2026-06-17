@@ -233,6 +233,7 @@ $string['practice_quiz_error_job_not_completed'] = 'O trabalho não está conclu
 $string['practice_quiz_error_invalid_result'] = 'Resultado do trabalho inválido.';
 $string['practice_quiz_error_wrong_module_type'] = 'O trabalho não é uma geração simplequiz2.';
 $string['practice_quiz_error_no_questions'] = 'Não há perguntas no resultado do trabalho.';
+$string['generation_output_language'] = 'IDIOMA: Gere todo o conteúdo para o aluno (perguntas, respostas, texto da lição e títulos) em {$a->language}.';
 
 // Teach lesson.
 $string['teach_lesson_default_title'] = 'Lição personalizada';

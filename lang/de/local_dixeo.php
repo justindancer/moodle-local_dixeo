@@ -233,6 +233,7 @@ $string['practice_quiz_error_job_not_completed'] = 'Auftrag ist nicht abgeschlos
 $string['practice_quiz_error_invalid_result'] = 'Ungültiges Auftragsergebnis.';
 $string['practice_quiz_error_wrong_module_type'] = 'Der Auftrag ist keine simplequiz2-Generierung.';
 $string['practice_quiz_error_no_questions'] = 'Keine Fragen im Auftragsergebnis.';
+$string['generation_output_language'] = 'SPRACHE: Generieren Sie alle für Lernende sichtbaren Inhalte (Fragen, Antworten, Lektionstexte und Titel) in {$a->language}.';
 
 // Teach lesson.
 $string['teach_lesson_default_title'] = 'Individuelle Lektion';
