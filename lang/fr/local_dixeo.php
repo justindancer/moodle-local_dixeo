@@ -233,3 +233,22 @@ $string['practice_quiz_error_job_not_completed'] = 'Le travail n\'est pas termin
 $string['practice_quiz_error_invalid_result'] = 'Résultat du travail non valide.';
 $string['practice_quiz_error_wrong_module_type'] = 'Le travail n\'est pas une génération simplequiz2.';
 $string['practice_quiz_error_no_questions'] = 'Aucune question dans le résultat du travail.';
+
+// Teach lesson.
+$string['teach_lesson_default_title'] = 'Leçon personnalisée';
+$string['teach_lesson_instructions'] = 'Générez une leçon de module Page personnalisée pour {$a->scopedescription}.
+
+L\'apprenant a demandé :
+"{$a->learnerrequest}"
+
+EXIGENCES OBLIGATOIRES — vous DEVEZ les respecter exactement :
+1. TYPE DE MODULE : Produisez un module Page avec un nom clair et descriptif, un bref résumé d\'introduction (intro) et un contenu principal riche (content).
+2. STRUCTURE : Organisez la leçon avec des titres clairs et des sections logiques. Utilisez des exemples lorsque c\'est utile.
+3. DEMANDE DE L\'APPRENANT : Répondez directement à la demande de l\'apprenant — approfondissez le sujet ou expliquez-le en termes plus simples comme il l\'a demandé.
+4. ALIGNEMENT : Basez la leçon sur le contexte de cours fourni. N\'inventez pas de faits qui contredisent le matériel source.
+
+Avant de terminer, vérifiez que le champ content est substantiel et répond directement à la demande de l\'apprenant.';
+$string['teach_lesson_error_job_not_completed'] = 'Le travail n\'est pas terminé. Statut : {$a->status}';
+$string['teach_lesson_error_invalid_result'] = 'Résultat du travail non valide.';
+$string['teach_lesson_error_wrong_module_type'] = 'Le travail n\'est pas une génération de page.';
+$string['teach_lesson_error_no_content'] = 'Aucun contenu dans le résultat du travail.';

@@ -235,3 +235,22 @@ $string['practice_quiz_error_job_not_completed'] = 'Job is not completed. Status
 $string['practice_quiz_error_invalid_result'] = 'Invalid job result.';
 $string['practice_quiz_error_wrong_module_type'] = 'Job is not a simplequiz2 generation.';
 $string['practice_quiz_error_no_questions'] = 'No questions in job result.';
+
+// Teach lesson.
+$string['teach_lesson_default_title'] = 'Custom lesson';
+$string['teach_lesson_instructions'] = 'Generate a custom Page module lesson for {$a->scopedescription}.
+
+The learner has asked:
+"{$a->learnerrequest}"
+
+MANDATORY REQUIREMENTS — you MUST follow these exactly:
+1. MODULE TYPE: Output a Page module with a clear, descriptive name, a brief introductory summary (intro), and rich main content (content).
+2. STRUCTURE: Organize the lesson with clear headings and logical sections. Use examples where helpful.
+3. LEARNER REQUEST: Address the learner\'s request directly — go deeper into the subject or explain it in simpler terms as they asked.
+4. ALIGNMENT: Base the lesson on the provided course context. Do not invent facts that contradict the source material.
+
+Before finishing, verify the content field is substantive and directly responds to the learner\'s request.';
+$string['teach_lesson_error_job_not_completed'] = 'Job is not completed. Status: {$a->status}';
+$string['teach_lesson_error_invalid_result'] = 'Invalid job result.';
+$string['teach_lesson_error_wrong_module_type'] = 'Job is not a page generation.';
+$string['teach_lesson_error_no_content'] = 'No content in job result.';

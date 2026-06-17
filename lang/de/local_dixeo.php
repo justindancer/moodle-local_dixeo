@@ -233,3 +233,22 @@ $string['practice_quiz_error_job_not_completed'] = 'Auftrag ist nicht abgeschlos
 $string['practice_quiz_error_invalid_result'] = 'Ungültiges Auftragsergebnis.';
 $string['practice_quiz_error_wrong_module_type'] = 'Der Auftrag ist keine simplequiz2-Generierung.';
 $string['practice_quiz_error_no_questions'] = 'Keine Fragen im Auftragsergebnis.';
+
+// Teach lesson.
+$string['teach_lesson_default_title'] = 'Individuelle Lektion';
+$string['teach_lesson_instructions'] = 'Generieren Sie eine individuelle Page-Modul-Lektion für {$a->scopedescription}.
+
+Der Lernende hat gefragt:
+"{$a->learnerrequest}"
+
+PFLICHTANFORDERUNGEN — Sie MÜSSEN diese exakt befolgen:
+1. MODULTYP: Geben Sie ein Page-Modul mit einem klaren, beschreibenden Namen, einer kurzen einleitenden Zusammenfassung (intro) und reichhaltigem Hauptinhalt (content) aus.
+2. STRUKTUR: Organisieren Sie die Lektion mit klaren Überschriften und logischen Abschnitten. Verwenden Sie Beispiele, wo hilfreich.
+3. LERNENDENANFRAGE: Gehen Sie direkt auf die Anfrage des Lernenden ein — vertiefen Sie das Thema oder erklären Sie es in einfacheren Begriffen, wie er es verlangt hat.
+4. AUSRICHTUNG: Stützen Sie die Lektion auf den bereitgestellten Kurskontext. Erfinden Sie keine Fakten, die dem Quellmaterial widersprechen.
+
+Überprüfen Sie vor dem Abschluss, dass das content-Feld substantiell ist und direkt auf die Anfrage des Lernenden eingeht.';
+$string['teach_lesson_error_job_not_completed'] = 'Auftrag ist nicht abgeschlossen. Status: {$a->status}';
+$string['teach_lesson_error_invalid_result'] = 'Ungültiges Auftragsergebnis.';
+$string['teach_lesson_error_wrong_module_type'] = 'Der Auftrag ist keine Page-Generierung.';
+$string['teach_lesson_error_no_content'] = 'Kein Inhalt im Auftragsergebnis.';
