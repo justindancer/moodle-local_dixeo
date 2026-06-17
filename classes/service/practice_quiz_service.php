@@ -10,7 +10,6 @@
 namespace local_dixeo\service;
 
 use local_dixeo\api\exception\api_exception;
-use local_dixeo\context\context_builder_factory;
 use local_dixeo\context\course_context_builder;
 use local_dixeo\dsl\dsl_exception;
 use local_dixeo\dto\operation_result;
@@ -21,6 +20,8 @@ defined('MOODLE_INTERNAL') || die();
  * Service for tutor practice quiz generation jobs.
  */
 class practice_quiz_service {
+
+    use scoped_ephemeral_generation_trait;
 
     public const SCOPE_COURSE = 'course';
     public const SCOPE_SECTION = 'section';
@@ -105,38 +106,10 @@ class practice_quiz_service {
     }
 
     /**
-     * Build markdown context for the selected scope.
-     *
-     * @param int $courseid
-     * @param string $scope course|section|activity
-     * @param int|null $sectionnum Section number when scope is section.
-     * @param int|null $cmid Course module id when scope is activity.
      * @return string
      */
-    public function build_context(int $courseid, string $scope, ?int $sectionnum, ?int $cmid): string {
-        switch ($scope) {
-            case self::SCOPE_SECTION:
-                if ($sectionnum !== null && $sectionnum > 0) {
-                    return context_builder_factory::buildSectionContextForNumber($courseid, $sectionnum);
-                }
-                // Fall through to course if section number missing.
-                // no break
-            case self::SCOPE_ACTIVITY:
-                if ($cmid !== null && $cmid > 0) {
-                    // Reject cmids from other courses (section scope is enforced by its DB lookup).
-                    get_coursemodule_from_id('', $cmid, $courseid, false, MUST_EXIST);
-                    return context_builder_factory::buildModulePracticeContext($cmid);
-                }
-                // Fall through to course if cmid missing.
-                // no break
-            case self::SCOPE_COURSE:
-            default:
-                return context_builder_factory::buildCourseContext(
-                    $courseid,
-                    null,
-                    course_context_builder::MODE_ASSESSMENT
-                );
-        }
+    protected function get_course_context_mode(): string {
+        return course_context_builder::MODE_ASSESSMENT;
     }
 
     /**
@@ -180,36 +153,6 @@ class practice_quiz_service {
     }
 
     /**
-     * Human-readable scope line for generation instructions.
-     *
-     * @param string $scope course|section|activity
-     * @param string $scopename Scope display name.
-     * @param string $language Moodle language code for localized scope text.
-     * @return string
-     */
-    private function build_scope_description(string $scope, string $scopename, string $language): string {
-        $name = trim($scopename);
-
-        return match ($scope) {
-            self::SCOPE_SECTION => generation_language_helper::get_string(
-                'practice_quiz_scope_section_description',
-                (object) ['name' => $name],
-                $language
-            ),
-            self::SCOPE_ACTIVITY => generation_language_helper::get_string(
-                'practice_quiz_scope_activity_description',
-                (object) ['name' => $name],
-                $language
-            ),
-            default => generation_language_helper::get_string(
-                'practice_quiz_scope_course_description',
-                (object) ['name' => $name],
-                $language
-            ),
-        };
-    }
-
-    /**
      * Transform a completed generation job into simplequiz2 question JSON.
      *
      * @param string $jobid
@@ -232,11 +175,8 @@ class practice_quiz_service {
             );
         }
 
-        $result = $status->result;
-        if (is_string($result)) {
-            $result = json_decode($result, true);
-        }
-        if (!is_array($result)) {
+        $result = $this->parse_completed_job_result($status->result);
+        if ($result === null) {
             return $this->practice_quiz_result(
                 false,
                 '',
@@ -318,24 +258,5 @@ class practice_quiz_service {
             'title' => $title,
             'questions' => $questions,
         ];
-    }
-
-    /**
-     * Normalize and validate a practice quiz scope value.
-     *
-     * @param string $scope
-     * @return string
-     */
-    private function normalize_scope(string $scope): string {
-        $scope = strtolower(trim($scope));
-        if (!in_array($scope, [
-            self::SCOPE_COURSE,
-            self::SCOPE_SECTION,
-            self::SCOPE_ACTIVITY,
-        ], true)) {
-            throw new \invalid_parameter_exception('Invalid scope');
-        }
-
-        return $scope;
     }
 }
