@@ -35,6 +35,8 @@ $string['dixeo:generate'] = 'Generate new modules using AI (page, label, quiz, g
 $string['dixeo:edit'] = 'Edit existing modules using AI';
 $string['dixeo:create'] = 'Create courses using Dixeo Course Designer';
 $string['dixeo:viewusage'] = 'View credit usage reports';
+$string['dixeo:contentimagegenerate'] = 'Generate embedded content images with AI';
+$string['dixeo:contentimageedit'] = 'Edit embedded content images with AI';
 
 // Settings page.
 $string['api_configuration'] = 'API Configuration';
@@ -53,6 +55,9 @@ $string['image_generation_course_mode'] = 'Course images';
 $string['image_generation_course_mode_desc'] = 'Controls AI image actions for the course overview image.';
 $string['image_generation_section_mode'] = 'Section images';
 $string['image_generation_section_mode_desc'] = 'Controls AI image actions for chapter/section images.';
+$string['image_generation_content_mode'] = 'Embedded content images';
+$string['image_generation_content_mode_desc'] = 'Controls AI image actions for images embedded in course content (filter_dixeo_imageeditor).';
+$string['contentimagetitlefallback'] = 'Content image';
 $string['image_generation_mode_disabled'] = 'Disabled';
 $string['image_generation_mode_generate'] = 'Generate';
 $string['image_generation_mode_generate_edit'] = 'Generate and Edit';

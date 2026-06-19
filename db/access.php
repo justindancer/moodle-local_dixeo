@@ -68,6 +68,28 @@ $capabilities = [
         ],
     ],
 
+    // Capability to generate embedded content images via filter_dixeo_imageeditor.
+    'local/dixeo:contentimagegenerate' => [
+        'riskbitmask' => RISK_SPAM,
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes' => [
+            'manager' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+        ],
+    ],
+
+    // Capability to edit embedded content images via filter_dixeo_imageeditor.
+    'local/dixeo:contentimageedit' => [
+        'riskbitmask' => RISK_SPAM,
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes' => [
+            'manager' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+        ],
+    ],
+
     // Capability to create courses using Dixeo Course Designer.
     'local/dixeo:create' => [
         'riskbitmask' => RISK_XSS,
