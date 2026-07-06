@@ -18,6 +18,7 @@ use local_dixeo\api\exception\api_exception;
 use local_dixeo\context\context_builder_factory;
 use local_dixeo\dto\operation_result;
 use local_dixeo\dto\tutor_message;
+use local_dixeo\external\service_factory;
 
 /**
  * Service for tutor message operations.
@@ -63,6 +64,8 @@ class tutor_service {
         tutor_message $message,
         string $mode = tutor_message::MODE_NORMAL
     ): operation_result {
+        service_factory::get_file_sync_service()->ensure_enabled_and_synchronized($courseid, $userid);
+
         $message->validate();
 
         $payload = $this->build_submit_payload($courseid, $userid, $message, $mode);
