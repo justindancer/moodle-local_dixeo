@@ -12,6 +12,8 @@ namespace local_dixeo;
 
 use local_dixeo\api\client;
 use local_dixeo\dto\operation_result;
+use local_dixeo\external\service_factory;
+use local_dixeo\service\file_sync_service;
 use local_dixeo\service\job_service;
 use local_dixeo\service\tutor_service;
 use local_dixeo\dto\tutor_message;
@@ -22,6 +24,20 @@ defined('MOODLE_INTERNAL') || die();
  * @covers \local_dixeo\service\tutor_service
  */
 final class tutor_service_test extends \advanced_testcase {
+
+    protected function tearDown(): void {
+        service_factory::reset();
+        parent::tearDown();
+    }
+
+    /**
+     * Stub the file sync service so submit() does not hit the real API.
+     */
+    private function stub_file_sync_service(): void {
+        $filesync = $this->createMock(file_sync_service::class);
+        $filesync->expects($this->once())->method('ensure_enabled_and_synchronized');
+        service_factory::set_test_file_sync_service($filesync);
+    }
 
     public function test_get_conversation_initial_load_fetches_single_page(): void {
         $page = [];
@@ -115,6 +131,7 @@ final class tutor_service_test extends \advanced_testcase {
 
     public function test_submit_user_message_includes_mode_instructions_and_context(): void {
         $this->resetAfterTest();
+        $this->stub_file_sync_service();
         $course = $this->getDataGenerator()->create_course();
         $context = ['schema' => 'page', 'version' => 1, 'url' => 'https://example.test/course/view.php?id=1'];
 
@@ -145,6 +162,7 @@ final class tutor_service_test extends \advanced_testcase {
 
     public function test_submit_system_message_passes_context_without_instructions(): void {
         $this->resetAfterTest();
+        $this->stub_file_sync_service();
         $course = $this->getDataGenerator()->create_course();
         $context = ['schema' => 'proactive', 'version' => 1, 'body' => 'Context line'];
 

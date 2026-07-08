@@ -15,7 +15,7 @@
 // along with Moodle. If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Tests for course_image_writer (course overview + Dixeo section images, cache).
+ * Tests for structure_image writer (course overview + Dixeo section images, cache).
  *
  * @package    local_dixeo
  * @category   test
@@ -27,8 +27,8 @@ namespace local_dixeo;
 
 use context_course;
 use core_course\external\course_summary_exporter;
-use local_dixeo\service\course_image_writer;
-use local_dixeo\service\image_poll_manager;
+use local_dixeo\service\image\structure\scope;
+use local_dixeo\service\image\structure\writer;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -37,9 +37,9 @@ require_once($CFG->dirroot . '/course/lib.php');
 require_once($CFG->dirroot . '/course/format/dixeo/lib.php');
 
 /**
- * @covers \local_dixeo\service\course_image_writer
+ * @covers \local_dixeo\service\image\structure\writer
  */
-final class course_image_writer_test extends \advanced_testcase {
+final class writer_test extends \advanced_testcase {
 
     /** Core filestorage fixture: PNG overview / first generation. */
     private static function fixture_png_bytes(): string {
@@ -66,7 +66,7 @@ final class course_image_writer_test extends \advanced_testcase {
         $course = $gen->create_course(['format' => 'topics'], ['createsections' => true]);
         $binary = self::fixture_png_bytes();
 
-        course_image_writer::apply_image_binary_to_course_overview((int) $course->id, $binary, (int) $USER->id);
+        writer::apply_image_binary_to_course_overview((int) $course->id, $binary, (int) $USER->id);
 
         $fresh = get_course($course->id);
         $url = course_summary_exporter::get_course_image($fresh);
@@ -88,8 +88,8 @@ final class course_image_writer_test extends \advanced_testcase {
         $section = $this->get_section_one($course->id);
         $binary = self::fixture_png_bytes();
 
-        course_image_writer::apply_from_job_result(
-            image_poll_manager::SCOPE_FORMAT_SECTION,
+        writer::apply_from_job_result(
+            scope::SCOPE_FORMAT_SECTION,
             (int) $section->id,
             ['image_base64' => base64_encode($binary)],
             (int) $USER->id
@@ -129,7 +129,7 @@ final class course_image_writer_test extends \advanced_testcase {
         \cache::make('core', 'course_image')->set($courseid, $stale);
         $this->assertSame($stale, course_summary_exporter::get_course_image(get_course($courseid)));
 
-        course_image_writer::apply_image_binary_to_course_overview($courseid, self::fixture_png_bytes(), (int) $USER->id);
+        writer::apply_image_binary_to_course_overview($courseid, self::fixture_png_bytes(), (int) $USER->id);
 
         $url = course_summary_exporter::get_course_image(get_course($courseid));
         $this->assertNotSame($stale, $url);
@@ -150,8 +150,8 @@ final class course_image_writer_test extends \advanced_testcase {
         \cache::make('core', 'course_image')->set($courseid, $stale);
         $this->assertSame($stale, course_summary_exporter::get_course_image(get_course($courseid)));
 
-        course_image_writer::apply_from_job_result(
-            image_poll_manager::SCOPE_FORMAT_SECTION,
+        writer::apply_from_job_result(
+            scope::SCOPE_FORMAT_SECTION,
             (int) $section->id,
             ['image_base64' => base64_encode(self::fixture_png_bytes())],
             (int) $USER->id
@@ -174,14 +174,14 @@ final class course_image_writer_test extends \advanced_testcase {
         $second = self::fixture_jpeg_bytes();
         $this->assertNotSame(sha1($first), sha1($second));
 
-        course_image_writer::apply_image_binary_to_course_overview($courseid, $first, (int) $USER->id);
+        writer::apply_image_binary_to_course_overview($courseid, $first, (int) $USER->id);
         $context = context_course::instance($courseid);
         $fs = get_file_storage();
         $files = $fs->get_area_files($context->id, 'course', 'overviewfiles', 0, 'id', false);
         $this->assertCount(1, $files);
         $hashafterfirst = reset($files)->get_contenthash();
 
-        course_image_writer::apply_image_binary_to_course_overview($courseid, $second, (int) $USER->id);
+        writer::apply_image_binary_to_course_overview($courseid, $second, (int) $USER->id);
         $files = $fs->get_area_files($context->id, 'course', 'overviewfiles', 0, 'id', false);
         $this->assertCount(1, $files);
         $this->assertNotSame($hashafterfirst, reset($files)->get_contenthash());
@@ -199,8 +199,8 @@ final class course_image_writer_test extends \advanced_testcase {
         $second = self::fixture_jpeg_bytes();
         $this->assertNotSame(sha1($first), sha1($second));
 
-        course_image_writer::apply_from_job_result(
-            image_poll_manager::SCOPE_FORMAT_SECTION,
+        writer::apply_from_job_result(
+            scope::SCOPE_FORMAT_SECTION,
             $sid,
             ['image_base64' => base64_encode($first)],
             (int) $USER->id
@@ -212,8 +212,8 @@ final class course_image_writer_test extends \advanced_testcase {
         $this->assertCount(1, $files);
         $hashafterfirst = reset($files)->get_contenthash();
 
-        course_image_writer::apply_from_job_result(
-            image_poll_manager::SCOPE_FORMAT_SECTION,
+        writer::apply_from_job_result(
+            scope::SCOPE_FORMAT_SECTION,
             $sid,
             ['image_base64' => base64_encode($second)],
             (int) $USER->id
@@ -231,8 +231,8 @@ final class course_image_writer_test extends \advanced_testcase {
         $course = $gen->create_course(['format' => 'topics'], ['createsections' => true]);
         $binary = self::fixture_png_bytes();
 
-        course_image_writer::apply_from_job_result(
-            image_poll_manager::SCOPE_COURSE_OVERVIEW,
+        writer::apply_from_job_result(
+            scope::SCOPE_COURSE_OVERVIEW,
             (int) $course->id,
             ['image_base64' => base64_encode($binary)],
             (int) $USER->id

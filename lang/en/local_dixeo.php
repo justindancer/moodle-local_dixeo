@@ -58,6 +58,7 @@ $string['image_generation_section_mode_desc'] = 'Controls AI image actions for c
 $string['image_generation_content_mode'] = 'Embedded content images';
 $string['image_generation_content_mode_desc'] = 'Controls AI image actions for images embedded in course content (filter_dixeo_imageeditor).';
 $string['contentimagetitlefallback'] = 'Content image';
+$string['editorimageorphaned'] = 'Image removed from editor content before completion';
 $string['image_generation_mode_disabled'] = 'Disabled';
 $string['image_generation_mode_generate'] = 'Generate';
 $string['image_generation_mode_generate_edit'] = 'Generate and Edit';
@@ -75,13 +76,9 @@ $string['state_suspended'] = 'Suspended';
 
 // Credit report page.
 $string['usage_statistics'] = 'Usage Statistics';
-$string['this_week_usage'] = 'This Week';
 $string['week_total'] = 'Total this week';
 $string['recent_transactions'] = 'Transaction History';
 $string['total_used'] = 'Total Used';
-$string['average_per_period'] = 'Average per {$a}';
-$string['data_points'] = 'Data Points';
-$string['no_usage_data'] = 'No usage data available for the selected period.';
 $string['no_transactions'] = 'No transactions found.';
 $string['usage_chart_label'] = 'Credit Usage';
 
@@ -102,12 +99,6 @@ $string['day_thursday'] = 'Thursday';
 $string['day_friday'] = 'Friday';
 $string['day_saturday'] = 'Saturday';
 $string['day_sunday'] = 'Sunday';
-
-// Periods.
-$string['period'] = 'Period';
-$string['period_day'] = 'Daily';
-$string['period_week'] = 'Weekly';
-$string['period_month'] = 'Monthly';
 
 // Transaction types.
 $string['transaction_type_purchase'] = 'Purchase';
@@ -132,15 +123,7 @@ $string['account_frozen_warning'] = 'Your account is frozen due to low credit ba
 $string['account_suspended_warning'] = 'Your account has been suspended. Please contact Dixeo support for assistance.';
 
 // Errors (used in exceptions).
-$string['error:authentication'] = 'Authentication failed. Please check your API key.';
 $string['error:payment_required'] = 'Insufficient credits. Please add credits to continue.';
-$string['error:rate_limit'] = 'Rate limit exceeded. Please wait before making more requests.';
-$string['error:validation'] = 'Invalid request: {$a}';
-$string['error:job_not_found'] = 'The requested job was not found.';
-$string['error:upstream_ai'] = 'AI service error. Please try again later.';
-$string['error:job_failed'] = 'Job processing failed: {$a}';
-$string['error:connection'] = 'Failed to connect to the Dixeo API. Please check your network connection.';
-$string['error:timeout'] = 'The operation timed out. You can check the job status later.';
 $string['error:notslideshow'] = 'The course module is not a slideshow activity.';
 $string['error:slidenotinslideshow'] = 'The requested slide does not belong to this slideshow.';
 
@@ -161,19 +144,21 @@ $string['feedback_partial'] = 'You\'re on the right track. Review the material a
 $string['feedback_incorrect'] = 'Not quite this time. Reviewing the topic will help you improve.';
 
 // Tasks.
-$string['task_cleanup_jobs'] = 'Clean up old job records';
 $string['task_process_file_sync'] = 'Process Dixeo file synchronization';
-$string['task_poll_image_generation'] = 'Poll Dixeo image generation job';
+$string['task_poll_image'] = 'Poll Dixeo image job';
+$string['task_cleanup_image_jobs'] = 'Clean up Dixeo image job records';
 
 // Async course / chapter images.
 $string['dixeo_course_image_unsupported_type'] = 'Unsupported generated image type.';
 $string['dixeo_image_job_empty_result'] = 'The image job returned no image data.';
 $string['dixeo_image_generation_disabled'] = 'Image generation is disabled by site settings.';
 $string['dixeo_pluginfile_not_found'] = 'Could not read the image file from storage.';
+$string['dixeo_image_job_failed'] = 'Image generation failed. Please try again.';
+$string['dixeo_image_job_locked'] = 'An image job is already in progress for this image.';
+$string['dixeo_image_not_eligible'] = 'This image cannot be edited.';
 
 // File sync.
 $string['filesync_title'] = 'Dixeo File Sync';
-$string['filesync_label'] = 'Sync';
 $string['filesync_status_none'] = 'No files synced';
 $string['filesync_status_syncing'] = 'Syncing files...';
 $string['filesync_status_synchronized'] = 'Files synchronized';
@@ -188,7 +173,6 @@ $string['filesync_resync'] = 'Sync now';
 $string['filesync_files_count'] = '{$a} files synced';
 $string['filesync_progress'] = '{$a}% complete';
 $string['last_sync'] = 'Last sync';
-$string['filesync_error_retry'] = 'Will retry automatically';
 $string['filesync_failed'] = 'File sync failed: {$a}';
 $string['filesync_timeout'] = 'File sync timed out before course files were indexed';
 $string['files'] = 'files';

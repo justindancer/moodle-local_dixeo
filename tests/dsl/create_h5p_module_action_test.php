@@ -19,7 +19,12 @@ defined('MOODLE_INTERNAL') || die();
 final class create_h5p_module_action_test extends \advanced_testcase {
 
     public function test_execute_allows_missing_intro_in_ai_data(): void {
-        $this->resetAfterTest(false);
+        $this->resetAfterTest();
+        $this->setAdminUser();
+
+        // Post-creation shortcode processing loads the real record and module context.
+        $course = $this->getDataGenerator()->create_course();
+        $activity = $this->getDataGenerator()->create_module('h5pactivity', ['course' => $course->id]);
 
         $packaging = $this->createMock(h5p_packaging_service::class);
         $packaging->expects($this->once())
@@ -35,14 +40,14 @@ final class create_h5p_module_action_test extends \advanced_testcase {
                 $this->anything(),
                 null
             )
-            ->willReturn(['id' => 1, 'cmid' => 42]);
+            ->willReturn(['id' => (int) $activity->id, 'cmid' => (int) $activity->cmid]);
 
         $action = new create_h5p_module_action($packaging);
         $resolver = new value_resolver([
             'name' => 'H5P Quiz',
             'content' => ['library' => 'H5P.QuestionSet 1.20', 'params' => []],
         ], [], [
-            'courseid' => 1,
+            'courseid' => (int) $course->id,
             'sectionid' => 2,
             'sectionnum' => 1,
         ]);
@@ -56,6 +61,6 @@ final class create_h5p_module_action_test extends \advanced_testcase {
             ],
         ], $resolver);
 
-        $this->assertSame(42, $result['cmid']);
+        $this->assertSame((int) $activity->cmid, $result['cmid']);
     }
 }

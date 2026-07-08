@@ -107,7 +107,7 @@ class create_module_action {
      * @throws dsl_exception If module creation fails.
      */
     public function execute(array $action, value_resolver $resolver): array {
-        global $CFG, $DB;
+        global $CFG, $DB, $USER;
 
         $context = $resolver->get_context();
         $this->validate_context($context);
@@ -154,6 +154,18 @@ class create_module_action {
 
             // Store instance ID for after hook.
             $moduledata->id = $instanceid;
+
+            $shortcodeservice = \local_dixeo\external\service_factory::get_content_image_shortcode_service();
+            $modulecontext = \context_module::instance($cmid);
+            $moduledata = $shortcodeservice->process_and_persist(
+                $modulename,
+                $instanceid,
+                $modulecontext->id,
+                $courseid,
+                $cmid,
+                $moduledata,
+                (int) ($context['userid'] ?? $USER->id)
+            );
 
             if ($modulename === 'quiz') {
                 $this->set_quiz_pass_grade($courseid, (int) $instanceid);

@@ -35,6 +35,8 @@ $string['dixeo:generate'] = 'Générer de nouveaux modules avec l\'IA (page, ét
 $string['dixeo:edit'] = 'Modifier les modules existants avec l\'IA';
 $string['dixeo:create'] = 'Créer des cours avec le Concepteur de Cours Dixeo';
 $string['dixeo:viewusage'] = 'Consulter les rapports d\'utilisation des crédits';
+$string['dixeo:contentimagegenerate'] = 'Générer des images de contenu intégrées avec l\'IA';
+$string['dixeo:contentimageedit'] = 'Modifier des images de contenu intégrées avec l\'IA';
 
 // Settings page.
 $string['api_configuration'] = 'Configuration de l\'API';
@@ -53,6 +55,9 @@ $string['image_generation_course_mode'] = 'Images de cours';
 $string['image_generation_course_mode_desc'] = 'Contrôle les actions d\'image IA pour l\'image d\'aperçu du cours.';
 $string['image_generation_section_mode'] = 'Images de section';
 $string['image_generation_section_mode_desc'] = 'Contrôle les actions d\'image IA pour les images de chapitre ou de section.';
+$string['image_generation_content_mode'] = 'Images de contenu intégrées';
+$string['image_generation_content_mode_desc'] = 'Contrôle les actions d\'image IA pour les images intégrées au contenu du cours (filter_dixeo_imageeditor).';
+$string['contentimagetitlefallback'] = 'Image de contenu';
 $string['image_generation_mode_disabled'] = 'Désactivé';
 $string['image_generation_mode_generate'] = 'Générer';
 $string['image_generation_mode_generate_edit'] = 'Générer et modifier';
@@ -70,13 +75,9 @@ $string['state_suspended'] = 'Suspendu';
 
 // Credit report page.
 $string['usage_statistics'] = 'Statistiques d\'utilisation';
-$string['this_week_usage'] = 'Cette semaine';
 $string['week_total'] = 'Total cette semaine';
 $string['recent_transactions'] = 'Historique des transactions';
 $string['total_used'] = 'Total utilisé';
-$string['average_per_period'] = 'Moyenne par {$a}';
-$string['data_points'] = 'Points de données';
-$string['no_usage_data'] = 'Aucune donnée d\'utilisation disponible pour la période sélectionnée.';
 $string['no_transactions'] = 'Aucune transaction trouvée.';
 $string['usage_chart_label'] = 'Utilisation des crédits';
 
@@ -97,12 +98,6 @@ $string['day_thursday'] = 'Jeudi';
 $string['day_friday'] = 'Vendredi';
 $string['day_saturday'] = 'Samedi';
 $string['day_sunday'] = 'Dimanche';
-
-// Periods.
-$string['period'] = 'Période';
-$string['period_day'] = 'Quotidien';
-$string['period_week'] = 'Hebdomadaire';
-$string['period_month'] = 'Mensuel';
 
 // Transaction types.
 $string['transaction_type_purchase'] = 'Achat';
@@ -127,15 +122,7 @@ $string['account_frozen_warning'] = 'Votre compte est gelé en raison d\'un sold
 $string['account_suspended_warning'] = 'Votre compte a été suspendu. Veuillez contacter le support Dixeo pour assistance.';
 
 // Errors (used in exceptions).
-$string['error:authentication'] = 'Échec de l\'authentification. Veuillez vérifier votre clé API.';
 $string['error:payment_required'] = 'Crédits insuffisants. Veuillez ajouter des crédits pour continuer.';
-$string['error:rate_limit'] = 'Limite de requêtes dépassée. Veuillez patienter avant d\'effectuer d\'autres requêtes.';
-$string['error:validation'] = 'Requête invalide : {$a}';
-$string['error:job_not_found'] = 'Le travail demandé n\'a pas été trouvé.';
-$string['error:upstream_ai'] = 'Erreur du service IA. Veuillez réessayer plus tard.';
-$string['error:job_failed'] = 'Échec du traitement du travail : {$a}';
-$string['error:connection'] = 'Échec de la connexion à l\'API Dixeo. Veuillez vérifier votre connexion réseau.';
-$string['error:timeout'] = 'L\'opération a expiré. Vous pouvez vérifier le statut du travail plus tard.';
 $string['error:notslideshow'] = 'Le module de cours n\'est pas une activité diaporama.';
 $string['error:slidenotinslideshow'] = 'La diapositive demandée n\'appartient pas à ce diaporama.';
 
@@ -156,17 +143,19 @@ $string['feedback_partial'] = 'Vous êtes sur la bonne voie. Révisez le sujet e
 $string['feedback_incorrect'] = 'Pas tout à fait cette fois. Revoir le sujet vous aidera à progresser.';
 
 // Tasks.
-$string['task_cleanup_jobs'] = 'Nettoyer les anciens enregistrements de travaux';
 $string['task_process_file_sync'] = 'Traiter la synchronisation des fichiers Dixeo';
-$string['task_poll_image_generation'] = 'Interroger la tâche de génération d\'images Dixeo';
+$string['task_poll_image'] = 'Interroger la tâche d\'image Dixeo';
+$string['task_cleanup_image_jobs'] = 'Nettoyer les enregistrements de tâches d\'image Dixeo';
 $string['dixeo_course_image_unsupported_type'] = 'Type d\'image générée non pris en charge.';
 $string['dixeo_image_job_empty_result'] = 'La tâche d\'image n\'a renvoyé aucune donnée d\'image.';
 $string['dixeo_image_generation_disabled'] = 'La génération d\'images est désactivée par les paramètres du site.';
 $string['dixeo_pluginfile_not_found'] = 'Impossible de lire le fichier image depuis le stockage.';
+$string['dixeo_image_job_failed'] = 'Échec de la génération de l\'image. Veuillez réessayer.';
+$string['dixeo_image_job_locked'] = 'Une tâche d\'image est déjà en cours pour cette image.';
+$string['dixeo_image_not_eligible'] = 'Cette image ne peut pas être modifiée.';
 
 // File sync.
 $string['filesync_title'] = 'Synchronisation de fichiers Dixeo';
-$string['filesync_label'] = 'Synchroniser';
 $string['filesync_status_none'] = 'Aucun fichier synchronisé';
 $string['filesync_status_syncing'] = 'Synchronisation en cours...';
 $string['filesync_status_synchronized'] = 'Fichiers synchronisés';
@@ -181,7 +170,6 @@ $string['filesync_resync'] = 'Synchroniser maintenant';
 $string['filesync_files_count'] = '{$a} fichiers synchronisés';
 $string['filesync_progress'] = '{$a} % terminé';
 $string['last_sync'] = 'Dernière synchronisation';
-$string['filesync_error_retry'] = 'Nouvelle tentative automatique';
 $string['filesync_failed'] = 'Échec de la synchronisation des fichiers : {$a}';
 $string['filesync_timeout'] = 'La synchronisation des fichiers a expiré avant l\'indexation des fichiers du cours';
 $string['files'] = 'fichiers';

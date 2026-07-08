@@ -14,12 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle. If not, see <http://www.gnu.org/licenses/>.
 
-namespace local_dixeo\service;
+namespace local_dixeo\service\image;
 
 defined('MOODLE_INTERNAL') || die();
 
 /**
  * Resolves image-generation availability from local_dixeo settings.
+ *
+ * Site-wide master switch plus per-entity mode (course, section, content).
+ * Externals should also enforce capabilities ({@see image\content\capability})
+ * and filter UI gates ({@see \filter_dixeo_imageeditor\adapter\feature_gate}).
  *
  * Course, section, and embedded content each use a mode select: disabled, generate only, or generate+edit.
  *
@@ -27,7 +31,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright  2026 Dixeo
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-final class image_generation_policy {
+final class policy {
     public const ENTITY_COURSE = 'course';
     public const ENTITY_SECTION = 'section';
     public const ENTITY_CONTENT = 'content';
@@ -112,6 +116,7 @@ final class image_generation_policy {
             return $mode;
         }
 
-        return self::MODE_GENERATE_EDIT;
+        // Fail safe: missing or invalid configuration disables the feature.
+        return self::MODE_DISABLED;
     }
 }

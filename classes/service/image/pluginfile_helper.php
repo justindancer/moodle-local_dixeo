@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle. If not, see <http://www.gnu.org/licenses/>.
 
-namespace local_dixeo\service;
+namespace local_dixeo\service\image;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -25,7 +25,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright  2026 Dixeo
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-final class pluginfile_image_helper {
+final class pluginfile_helper {
 
     /**
      * Resolve a wwwroot-relative or absolute pluginfile URL to a stored file.
