@@ -21,7 +21,8 @@ Foundation plugin that powers the Dixeo AI ecosystem for Moodle 4.5+. This plugi
 
 ## File Synchronisation
 
-Course documents are automatically synchronised with the Dixeo platform.
+When at least one of the Dixeo Generator or Tutor blocks are deployed to a course, course documents are automatically synchronised with the Dixeo platform.
+Synchronization to Dixeo allows generated activities to remain grounded in the latest course documentation.
 
 The synchronization "pill" indicator displays:
 
@@ -34,25 +35,27 @@ The synchronization "pill" indicator displays:
 | Red | Synchronization error |
 
 Teachers can:
-
 - manually trigger synchronization;
 - pause synchronization;
 - disable synchronization;
 - review the last synchronization date.
 
-Proper synchronization ensures generated activities remain grounded in the latest course documentation.
-
 ## Requirements
 
 - Moodle 4.5+
 - PHP 8.1+
-- A Dixeo API key
+- A valid Dixeo API key
 
 ## Installation
 
 1. Copy `local_dixeo` to `/local/dixeo/`
 2. Visit Site Administration > Notifications
 3. Configure at Site Administration > Plugins > Local plugins > Dixeo AI
+
+## Acquiring a Dixeo API key
+
+After purchase of the plugin, you will receive a Dixeo API key withing 48 hours.
+In case of delay or difficulties, please contact support@dixeo.com.
 
 ## Configuration
 
