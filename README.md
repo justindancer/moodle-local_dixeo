@@ -4,9 +4,9 @@ Foundation plugin that powers the Dixeo AI ecosystem for Moodle 4.5+. This plugi
 
 **This plugin does not provide a user interface on its own.** It is required by:
 
-- **[Dixeo Editor](../dixeo_editor)** — AI-powered content editing for pages and labels
-- **[Dixeo Module Generator](../../blocks/dixeo_modulegen)** — Generate new course activities with AI
-- **[Dixeo Tutor](../../blocks/dixeo_tutor)** — AI tutor chatbot for students ("Ask Ed")
+- **[Dixeo Editor](../../../dixeo_editor)** — AI-powered content editing for pages and labels
+- **[Dixeo Module Generator](../../../blocks/dixeo_modulegen)** — Generate new course activities with AI
+- **[Dixeo Tutor](../../../blocks/dixeo_tutor)** — AI tutor chatbot for students ("Ask Ed")
 
 ## What it does
 
@@ -18,6 +18,29 @@ Foundation plugin that powers the Dixeo AI ecosystem for Moodle 4.5+. This plugi
 - **File sync** — Automatically indexes course documents so AI can reference them during generation and tutoring
 - **Credit management** — Track usage, balance, and transaction history
 
+## File Synchronisation
+
+Course documents are automatically synchronised with the Dixeo platform.
+
+The synchronization "pill" indicator displays:
+
+| Colour | Meaning |
+|---------|----------|
+| Green | All files synchronized |
+| Orange | Synchronization required |
+| Blue | Synchronization in progress |
+| Grey | No files available |
+| Red | Synchronization error |
+
+Teachers can:
+
+- manually trigger synchronization;
+- pause synchronization;
+- disable synchronization;
+- review the last synchronization date.
+
+Proper synchronization ensures generated activities remain grounded in the latest course documentation.
+
 ## Requirements
 
 - Moodle 4.5+
@@ -26,7 +49,7 @@ Foundation plugin that powers the Dixeo AI ecosystem for Moodle 4.5+. This plugi
 
 ## Installation
 
-1. Copy `dixeo` to `/local/dixeo/`
+1. Copy `local_dixeo` to `/local/dixeo/`
 2. Visit Site Administration > Notifications
 3. Configure at Site Administration > Plugins > Local plugins > Dixeo AI
 
@@ -42,6 +65,7 @@ Foundation plugin that powers the Dixeo AI ecosystem for Moodle 4.5+. This plugi
 
 | Capability | Description | Default Roles |
 |------------|-------------|---------------|
+| `local/dixeo:create` | Design and create entire courses with AI | Manager, Course Creator |
 | `local/dixeo:manage` | Manage settings and view admin reports | Manager |
 | `local/dixeo:generate` | Generate new modules with AI | Editing Teacher, Manager |
 | `local/dixeo:edit` | Edit existing modules with AI | Editing Teacher, Manager |
